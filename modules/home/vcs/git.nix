@@ -16,16 +16,18 @@ in
       git = {
         enable = true;
         lfs.enable = true;
-        settings.user = {
-          name = "kasader";
-          email = "casada980@gmail.com";
-        };
-        settings.url = {
-          "ssh://git@github.com/" = {
-            insteadOf = "https://github.com/";
+        settings = {
+          user = {
+            name = "kasader";
+            email = "casada980@gmail.com";
           };
+          url = {
+            "ssh://git@github.com/" = {
+              insteadOf = "https://github.com/";
+            };
+          };
+          push.default = "current";
         };
-        settings.push.default = "current";
         ignores = [
           ".DS_Store"
           "*~"

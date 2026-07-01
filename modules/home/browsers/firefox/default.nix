@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.browsers.firefox;
@@ -28,21 +33,23 @@ in
           # Manager won't overwrite it unless forced. Note this means HM now owns
           # the search config and will drop engines added manually in the UI.
           force = true;
-          engines."Jisho" = {
-            urls = [ { template = "https://jisho.org/search/{searchTerms}"; } ];
-            iconMapObj."16" =
-              "https://assets.jisho.org/assets/favicon-062c4a0240e1e6d72c38aa524742c2d558ee6234497d91dd6b75a182ea823d65.ico";
-            definedAliases = [ "@j" ];
-          };
-          engines."DeepL" = {
-            urls = [ { template = "https://www.deepl.com/translator?share=generic#ja/en-us/{searchTerms}"; } ];
-            iconMapObj."16" = "https://www.deepl.com/favicon.ico";
-            definedAliases = [ "@d" ];
-          };
-          engines."youtube" = {
-            urls = [ { template = "https://www.youtube.com/results?search_query={searchTerms}"; } ];
-            iconMapObj."16" = "https://www.youtube.com/favicon.ico";
-            definedAliases = [ "@y" ];
+          engines = {
+            "Jisho" = {
+              urls = [ { template = "https://jisho.org/search/{searchTerms}"; } ];
+              iconMapObj."16" =
+                "https://assets.jisho.org/assets/favicon-062c4a0240e1e6d72c38aa524742c2d558ee6234497d91dd6b75a182ea823d65.ico";
+              definedAliases = [ "@j" ];
+            };
+            "DeepL" = {
+              urls = [ { template = "https://www.deepl.com/translator?share=generic#ja/en-us/{searchTerms}"; } ];
+              iconMapObj."16" = "https://www.deepl.com/favicon.ico";
+              definedAliases = [ "@d" ];
+            };
+            "youtube" = {
+              urls = [ { template = "https://www.youtube.com/results?search_query={searchTerms}"; } ];
+              iconMapObj."16" = "https://www.youtube.com/favicon.ico";
+              definedAliases = [ "@y" ];
+            };
           };
         };
       };

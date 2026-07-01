@@ -18,31 +18,39 @@
       rm -f -- "$tmp"
     '';
 
+  # Scaffold a Nix devShell + direnv into the current directory from
+  # the-nix-way/dev-templates. Bare `devinit` uses the minimal `empty`
+  # template; pass a language for a batteries-included one. Refs are unpinned
+  # (they pull the repo's current template); the flake.lock each template
+  # copies in still pins the scaffolded project's own dependencies.
   devinit = # fish
     ''
-      set -l tdir $HOME/.config/dev-templates
-      set -l made 0
-      # source name -> destination name (flake.nix stays; envrc -> .envrc;
-      # env.example -> .env.example, the committed secret contract)
-      for pair in flake.nix:flake.nix envrc:.envrc env.example:.env.example
-        set -l src (string split -m1 ':' $pair)[1]
-        set -l dst (string split -m1 ':' $pair)[2]
-        if test -e $dst
-          echo "devinit: $dst already exists, skipping"
-        else
-          cp $tdir/$src $dst
-          chmod u+w $dst # nix store sources are read-only
-          echo "devinit: created $dst"
-          set made 1
-        end
+      set -l repo github:the-nix-way/dev-templates
+      set -l template empty
+      switch "$argv[1]"
+        case ""
+        case python python3
+          set template python
+        case go golang
+          set template go
+        case rust
+          set template rust
+        case c cpp c++ c-cpp
+          set template c-cpp
+        case '*'
+          echo "devinit: unknown target '$argv[1]' (try: python, go, rust, c, or no arg)" >&2
+          return 1
       end
-      # The .env cache holds real secrets and must never be committed. -x pins
-      # the whole-line match so it doesn't trip on the .env.example entry.
-      if not test -e .gitignore; or not grep -qxF '.env' .gitignore
-        echo '.env' >> .gitignore
-        echo "devinit: added .env to .gitignore"
+
+      nix flake init -t "$repo#$template"; or return 1
+
+      # direnv's `use flake` cache; the templates handle their own .gitignore.
+      if not test -e .gitignore; or not grep -qxF '.direnv/' .gitignore
+        echo '.direnv/' >> .gitignore
+        echo "devinit: added .direnv/ to .gitignore"
       end
-      if test $made -eq 1; and type -q direnv
+
+      if type -q direnv
         direnv allow
       end
     '';

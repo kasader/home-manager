@@ -24,15 +24,19 @@
   # won't chsh it declaratively. That stable path (vs the old ~/.nix-profile/bin/
   # fish, which a switch can empty) is what prevents the "login shell vanished
   # after rebuild" breakage.
-  programs.fish.enable = true;
-  environment.shells = [ pkgs.fish ];
+  programs = {
+    fish.enable = true;
 
-  # Export ZDOTDIR from /etc/zshenv so zsh finds its config under ~/.config/zsh
-  # without a ~/.zshenv bootstrap stub. Pairs with programs.zsh.dotDir in home.
-  programs.zsh.enable = true;
-  programs.zsh.shellInit = ''
-    export ZDOTDIR="$HOME/.config/zsh"
-  '';
+    # Export ZDOTDIR from /etc/zshenv so zsh finds its config under ~/.config/zsh
+    # without a ~/.zshenv bootstrap stub. Pairs with programs.zsh.dotDir in home.
+    zsh = {
+      enable = true;
+      shellInit = ''
+        export ZDOTDIR="$HOME/.config/zsh"
+      '';
+    };
+  };
+  environment.shells = [ pkgs.fish ];
 
   # Declarative Homebrew *mechanism*. nix-darwin doesn't install brew itself — it
   # drives the existing install via a generated Brewfile on each rebuild. The

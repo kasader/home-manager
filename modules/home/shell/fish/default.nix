@@ -1,15 +1,6 @@
 { config, lib, ... }:
 {
   config = lib.mkIf config.custom.shell.enable {
-    # Templates that `devinit` copies into a project to scaffold a Nix devShell
-    # + direnv. Stored as real files (not heredocs) so flake's `${system}` and
-    # the shell `$` survive without nix/fish escaping.
-    xdg.configFile = {
-      "dev-templates/flake.nix".source = ./templates/flake.nix;
-      "dev-templates/envrc".source = ./templates/envrc;
-      "dev-templates/env.example".source = ./templates/env.example;
-    };
-
     # Absolute path to this flake, so the `mknix` wrapper (and any rebuild abbr) can
     # drive the Makefile from any directory. Single source of truth: custom.flakeDir.
     home.sessionVariables.NIX_FLAKE = config.custom.flakeDir;
