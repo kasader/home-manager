@@ -8,6 +8,11 @@
   programs.home-manager.enable = true;
 
   custom = {
+    cloud = {
+      aws.enable = true;
+      gcp.enable = true;
+      oci.enable = true;
+    };
     fonts.enable = true;
     security.enable = true;
     media.enable = true;
