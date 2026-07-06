@@ -214,5 +214,12 @@
           };
         }
       );
+
+      # devShell templates for languages the-nix-way/dev-templates doesn't
+      # cover. `devinit lua` scaffolds this via `nix flake init -t $NIX_FLAKE#lua`.
+      templates.lua = {
+        path = ./templates/lua;
+        description = "Lua devShell: lua, luarocks, lua-language-server, stylua, luacheck";
+      };
     };
 }

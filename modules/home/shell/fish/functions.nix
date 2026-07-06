@@ -22,7 +22,8 @@
   # the-nix-way/dev-templates. Bare `devinit` uses the minimal `empty`
   # template; pass a language for a batteries-included one. Refs are unpinned
   # (they pull the repo's current template); the flake.lock each template
-  # copies in still pins the scaffolded project's own dependencies.
+  # copies in still pins the scaffolded project's own dependencies. `lua` is
+  # the exception — it's served from this flake's own templates.lua output.
   devinit = # fish
     ''
       set -l repo github:the-nix-way/dev-templates
@@ -37,8 +38,12 @@
           set template rust
         case c cpp c++ c-cpp
           set template c-cpp
+        case lua
+          # Not in the-nix-way; served from this flake's own templates output.
+          set repo "$NIX_FLAKE"
+          set template lua
         case '*'
-          echo "devinit: unknown target '$argv[1]' (try: python, go, rust, c, or no arg)" >&2
+          echo "devinit: unknown target '$argv[1]' (try: python, go, rust, c, lua, or no arg)" >&2
           return 1
       end
 
