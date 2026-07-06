@@ -15,7 +15,7 @@
   lg = "lazygit";
 
   # ghq family
-  ghg = "ghq clone";
+  ghc = "ghq clone";
   ghl = "ghq list";
   ghrm = "ghq rm";
   ghcr = "ghq create";
