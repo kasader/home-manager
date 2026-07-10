@@ -59,4 +59,91 @@
         direnv allow
       end
     '';
+
+  kube-drop-cluster = # fish
+    ''
+      set -l TARGET (kubectl config get-clusters | tail -n +2 | fzf --prompt="Select cluster to delete > " --height=~10 --layout=reverse)
+      if test -n "$TARGET"
+        read -l -P "Are you sure you want to delete cluster entry '$TARGET'? [y/N] " confirm
+        if string match -qr '^[Yy]$' -- "$confirm"
+          kubectl config delete-cluster "$TARGET"
+          echo "Successfully removed cluster: $TARGET"
+        else
+          echo "Aborted. Cluster '$TARGET' was kept."
+        end
+      else
+        echo "Aborted. No selection made."
+      end
+    '';
+
+  kube-drop-user = # fish
+    ''
+      set -l TARGET (kubectl config get-users | tail -n +2 | fzf --prompt="Select user to delete > " --height=~10 --layout=reverse)
+      if test -n "$TARGET"
+        read -l -P "Are you sure you want to delete user entry '$TARGET'? [y/N] " confirm
+        if string match -qr '^[Yy]$' -- "$confirm"
+          kubectl config delete-user "$TARGET"
+          echo "Successfully removed user: $TARGET"
+        else
+          echo "Aborted. User '$TARGET' was kept."
+        end
+      else
+        echo "Aborted. No selection made."
+      end
+    '';
+
+  kube-drop-context = # fish
+    ''
+      set -l TARGET (kubectl config get-contexts -o name | fzf --prompt="Select context to delete > " --height=~10 --layout=reverse)
+      if test -n "$TARGET"
+        read -l -P "Are you sure you want to delete context entry '$TARGET'? [y/N] " confirm
+        if string match -qr '^[Yy]$' -- "$confirm"
+          kubectl config delete-context "$TARGET"
+          echo "Successfully removed context: $TARGET"
+        else
+          echo "Aborted. Context '$TARGET' was kept."
+        end
+      else
+        echo "Aborted. No selection made."
+      end
+    '';
+
+  kube-purge = # fish
+    ''
+      # 1. Select the context acting as the "Glue"
+      set -l TARGET (kubectl config get-contexts -o name | fzf --prompt="Select context to completely purge > " --height=~10 --layout=reverse)
+
+      if test -n "$TARGET"
+        # 2. Extract the associated cluster and user directly from the context definition
+        set -l CLUSTER (kubectl config view -o jsonpath="{.contexts[?(@.name=='$TARGET')].context.cluster}")
+        set -l USER (kubectl config view -o jsonpath="{.contexts[?(@.name=='$TARGET')].context.user}")
+        
+        echo "This will permanently delete the following grouped items:"
+        echo "  - Context: $TARGET"
+        echo "  - Cluster: $CLUSTER"
+        echo "  - User:    $USER"
+        
+        # 3. Confirm deletion
+        read -l -P "Are you sure you want to completely purge this group? [y/N] " confirm
+        
+        if string match -qr '^[Yy]$' -- "$confirm"
+          # 4. Execute the deletions
+          kubectl config delete-context "$TARGET"
+          
+          if test -n "$CLUSTER"
+            kubectl config delete-cluster "$CLUSTER"
+          end
+          
+          if test -n "$USER"
+            kubectl config delete-user "$USER"
+          end
+          
+          echo "Successfully purged the context, cluster, and user!"
+        else
+          echo "Aborted. Nothing was deleted."
+        end
+      else
+        echo "Aborted. No selection made."
+      end
+    '';
 }
