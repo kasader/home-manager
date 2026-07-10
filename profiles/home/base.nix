@@ -59,6 +59,8 @@
       wget
       tldr
       curl
+      colordiff
+      icdiff
 
       # Migrated off Homebrew (`brew leaves`). Stable, cross-platform CLI tools
       # that nix packages cleanly. Build toolchains (cmake/meson/llvm/golangci-lint
@@ -88,7 +90,6 @@
     sessionVariables = {
       EDITOR = "nvim";
       MANWIDTH = "100";
-      LESSOPEN = "|- ${config.home.homeDirectory}/.bin/less_wrap.sh %s";
       DIARKIS_PATH = "${config.home.homeDirectory}/diarkis";
     };
 
