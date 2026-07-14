@@ -146,4 +146,16 @@
         echo "Aborted. No selection made."
       end
     '';
+
+  checksum = # fish
+    ''
+      # Check if exactly two arguments were provided
+      if test (count $argv) -ne 2
+          echo "Usage: checksum  "
+          return 1
+      end
+
+      # Run the checksum with two spaces between hash and filename (standard format)
+      echo "$argv[1]  $argv[2]" | sha256sum --check -
+    '';
 }
