@@ -25,8 +25,15 @@ in
   config = lib.mkMerge [
     # google-cloud-sdk puts gcloud/gsutil straight on PATH — unlike the
     # hand-installed SDK under ~/.local/share, there's no path.fish.inc to source.
+    # Components have to be baked in here: `gcloud components install` can't write
+    # into the read-only store path. gke-gcloud-auth-plugin is what kubectl >= 1.26
+    # shells out to for GKE clusters, so `get-credentials` produces a usable context.
     (lib.mkIf cfg.gcp.enable {
-      home.packages = [ pkgs.google-cloud-sdk ];
+      home.packages = [
+        (pkgs.google-cloud-sdk.withExtraComponents [
+          pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin
+        ])
+      ];
     })
 
     (lib.mkIf cfg.aws.enable {
