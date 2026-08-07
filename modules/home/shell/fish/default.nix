@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  isDarwin,
+  ...
+}:
 {
   config = lib.mkIf config.custom.shell.enable {
     # Absolute path to this flake, so the `mknix` wrapper (and any rebuild abbr) can
@@ -16,7 +21,10 @@
       '';
 
       # Runs for login shells — env/PATH setup that terminals (Alacritty, VSCode, …) inherit.
-      loginShellInit = ''
+      #
+      # Homebrew is macOS-only: /opt/homebrew doesn't exist on NixOS, and running it
+      # unconditionally makes every Linux login shell fail with a startup error.
+      loginShellInit = lib.optionalString isDarwin ''
         /opt/homebrew/bin/brew shellenv fish | source
       '';
 

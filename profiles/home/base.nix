@@ -48,6 +48,7 @@
       hugo
       gnugrep
       gnumake
+      nix-search-cli # `nix-search`; backs pay-respects' package suggestions
       ripgrep
       fastfetch # TODO: Add an alias for neofetch (as it is now deprecated)
       bat

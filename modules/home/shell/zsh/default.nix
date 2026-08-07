@@ -120,9 +120,9 @@
 
       # Login-shell env, mirrors the fish module's loginShellInit.
       profileExtra = ''
-        eval "$(/opt/homebrew/bin/brew shellenv)"
+        ${lib.optionalString isDarwin ''eval "$(/opt/homebrew/bin/brew shellenv)"''}
 
-        # OrbStack CLI integration.
+        # OrbStack CLI integration. macOS-only, but already silent on absence.
         source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
         if [ -f "$HOME/.local/share/google-cloud-sdk/path.zsh.inc" ]; then
