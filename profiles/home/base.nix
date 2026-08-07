@@ -47,6 +47,7 @@
     packages = with pkgs; [
       hugo
       gnugrep
+      gnumake
       ripgrep
       fastfetch # TODO: Add an alias for neofetch (as it is now deprecated)
       bat
