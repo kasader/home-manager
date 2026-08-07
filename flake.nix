@@ -2,7 +2,7 @@
   description = "My Nix home-manager configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs.url = "nixpkgs/nixos-26.05";
 
     # https://github.com/NotAShelf/nvf
     # Neovim configuration framework for Nix
@@ -12,15 +12,15 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs"; # Stating *.follows = 'nixpkgs'; indicates that
       # the home-manager input is DEPENDENT on nixpkgs. I.e, an import DAG creation.
     };
 
     # macOS system layer. Release branch pinned to match nixpkgs/home-manager
-    # (25.11). follows = nixpkgs keeps the whole tree on one nixpkgs.
+    # (26.05). follows = nixpkgs keeps the whole tree on one nixpkgs.
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -65,7 +65,7 @@ in
         bash-language-server
         marksman # markdown
         taplo # toml
-        nodePackages.prettier
+        prettier
         shfmt
 
         # ── Lua (to hack on this very config) ──
