@@ -12,21 +12,19 @@
     ../../profiles/nixos/base.nix
   ];
 
-  networking.hostName = "nixbox";
-
-  # Linode is BIOS/GRUB with a serial console (the GRUB serial + device settings
-  # ship in hardware-configuration.nix). base.nix defaults to systemd-boot for
-  # ramiel, so turn it off explicitly — and with it the EFI variable access that
-  # doesn't exist on this machine.
-  boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.canTouchEfiVariables = false;
+  # BIOS machine. The GRUB device, serial console, and timeout that Linode's image
+  # needs ship in hardware-configuration.nix alongside the rest of the hardware.
   boot.loader.grub.enable = true;
 
-  # Linode's network setup: unpredictable interface names (eth0), no global DHCP,
-  # DHCP on eth0 only.
-  networking.usePredictableInterfaceNames = false;
-  networking.useDHCP = false;
-  networking.interfaces.eth0.useDHCP = true;
+  networking = {
+    hostName = "nixbox";
+
+    # Linode's network setup: unpredictable interface names (eth0), no global
+    # DHCP, DHCP on eth0 only.
+    usePredictableInterfaceNames = false;
+    useDHCP = false;
+    interfaces.eth0.useDHCP = true;
+  };
 
   # Key-only SSH — this box is on the public internet.
   services.openssh = {

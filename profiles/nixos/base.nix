@@ -14,11 +14,6 @@
     "flakes"
   ];
 
-  # Bootloader: ramiel is UEFI (systemd-boot). mkDefault so a future BIOS host
-  # can override with grub.
-  boot.loader.systemd-boot.enable = lib.mkDefault true;
-  boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
-
   # Locale / timezone. English UI, Japanese formatting (dates, measurements, …).
   time.timeZone = lib.mkDefault "Asia/Tokyo";
   i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
