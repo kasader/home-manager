@@ -37,6 +37,11 @@ in
       vimAlias = true;
       withNodeJs = true;
 
+      withRuby = false;
+      withPython3 = false;
+
+      sideloadInitLua = true;
+
       extraPackages = with pkgs; [
         # ── tools plugins shell out to ──
         ripgrep # telescope live-grep

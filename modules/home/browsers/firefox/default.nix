@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  isDarwin,
   ...
 }:
 
@@ -14,9 +15,25 @@ in
   config = lib.mkIf cfg.enable {
     programs.firefox = {
       enable = true;
+      # TODO: Fix all of this stuff w/ the package and configPath (currently stopgap per
+      # the migration to nix-26.05).
+      #
       # Mozilla's official prebuilt binary is the low-risk choice on macOS; the
-      # source build is the cached standard on Linux.
-      package = pkgs.firefox;
+      # source build is the cached standard on Linux. This branch is load-bearing:
+      # plain `firefox` on darwin is a from-source build that nixpkgs does not
+      # cache, so it compiles Firefox (hours, tens of GB of scratch) instead of
+      # fetching it. firefox-bin is substitutable from cache.nixos.org.
+      package = if isDarwin then pkgs.firefox-bin else pkgs.firefox;
+
+      # HM 26.05 moved the *Linux* default to $XDG_CONFIG_HOME/mozilla/firefox.
+      # Pinned to the legacy path because adopting the new one is a data
+      # migration, not a config change: ~/.mozilla/firefox must be moved by hand
+      # and native messaging hosts don't follow.
+      #
+      # Linux only — darwin has its own default ("Library/Application Support/
+      # Firefox") and never had a stateVersion-gated change. Setting this
+      # unconditionally would relocate the macOS profile to a Linux path.
+      configPath = lib.mkIf (!isDarwin) ".mozilla/firefox";
 
       # Search engines live in the profile (search.json.mozlz4), not in policies:
       # the SearchEngines policy is ESR-only and is ignored by release Firefox.
