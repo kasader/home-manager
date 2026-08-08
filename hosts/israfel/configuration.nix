@@ -20,6 +20,7 @@
 
     casks = [
       # "aerospace"
+      "calibre"
       "ghostty"
       "handbrake-app"
       "iina"
