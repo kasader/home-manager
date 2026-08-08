@@ -8,7 +8,12 @@
     ../../profiles/nixos/desktop.nix
   ];
 
-  networking.hostName = "ramiel";
+  # Network configuration.
+  networking = {
+    hostName = "ramiel";
+    networkmanager.enable = true;
+  };
+  users.users.kasada.extraGroups = [ "networkmanager" ];
 
   # UEFI machine.
   boot.loader.systemd-boot.enable = true;

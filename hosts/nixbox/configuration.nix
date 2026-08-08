@@ -5,8 +5,7 @@
   # (which imports ./home.nix). No desktop profile: base only.
   #
   # Anything already provided by profiles/nixos/base.nix (fish login shell, the
-  # kasada account, locale/timezone, NetworkManager, flakes) is deliberately not
-  # restated here.
+  # kasada account, locale/timezone, flakes) is deliberately not restated here.
   imports = [
     ./hardware-configuration.nix
     ../../profiles/nixos/base.nix

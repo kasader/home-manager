@@ -15,8 +15,5 @@
     # browsers.librewolf.enable = true;
     k8s.enable = true;
     containers.enable = true;
-    cloud.gcp.enable = true;
-    # cloud.aws.enable = true;
-    # cloud.oci.enable = true;
   };
 }

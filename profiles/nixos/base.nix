@@ -29,19 +29,13 @@
     LC_TIME = "ja_JP.UTF-8";
   };
 
-  # Networking via NetworkManager (workstation default).
-  networking.networkmanager.enable = lib.mkDefault true;
-
   # NixOS owns the *account*; home-manager owns the account's *home*. Fish is the
   # login shell everywhere, so it must be enabled at the system level to be valid.
   programs.fish.enable = true;
   users.users.kasada = {
     isNormalUser = true;
     description = "kasada";
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-    ];
+    extraGroups = [ "wheel" ];
     shell = pkgs.fish;
     # TODO(ramiel): set an initial password with `passwd` after first boot, or
     # manage it declaratively (hashedPasswordFile) once secrets are wired up.
