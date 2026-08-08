@@ -23,4 +23,9 @@ in
     kasada
     nixbox
   ];
+
+  "secrets/kavita-token.age".publicKeys = [
+    kasada
+    nixbox
+  ];
 }
