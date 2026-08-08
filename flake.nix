@@ -30,6 +30,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Secret management. Secrets are age-encrypted to each host's SSH *host* key
+    # (plus my personal key, so I can still edit them), committed as ciphertext,
+    # and decrypted to /run/agenix at activation — never into the world-readable
+    # Nix store. Recipients live in ./secrets.nix, which the `agenix` CLI reads;
+    # the flake itself never evaluates that file.
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Pre-commit hook manager. Wires fmt/lint/secret checks into both
     # `nix flake check` and a devShell-installed git hook.
     git-hooks = {
@@ -46,6 +56,7 @@
       nix-darwin,
       nvf,
       nur,
+      agenix,
       git-hooks,
       ...
     }:
@@ -94,6 +105,13 @@
           modules = [
             (hostDir + "/configuration.nix")
             hmModule
+          ]
+          # agenix, NixOS hosts only for now: nixbox is the only machine with
+          # secrets, and leaving israfel's module list untouched keeps its
+          # derivation byte-identical. agenix.darwinModules.default exists if
+          # macOS ever needs secrets too.
+          ++ lib.optional (!isDarwin) agenix.nixosModules.default
+          ++ [
             {
               nixpkgs.config.allowUnfree = true;
               # NUR overlay on the *system* pkgs so the integrated HM (which uses
