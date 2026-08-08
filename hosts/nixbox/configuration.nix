@@ -100,6 +100,10 @@
     };
   };
 
+  # Lets me rsync books into /srv/library as myself rather than as root. The
+  # directory is setgid kavita, so uploads stay readable by the service.
+  users.users.kasada.extraGroups = [ "kavita" ];
+
   # Server-side diagnostics, on top of base.nix's git/vim. enableAllTerminfo so
   # sessions from arbitrary terminal emulators render correctly over SSH.
   environment.systemPackages = with pkgs; [

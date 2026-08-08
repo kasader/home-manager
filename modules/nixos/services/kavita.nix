@@ -34,6 +34,23 @@ in
       type = lib.types.str;
       description = "File holding Kavita's 512+ bit TokenKey.";
     };
+
+    libraryDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/srv/library";
+      description = ''
+        Where the actual books live — deliberately outside dataDir, which holds
+        Kavita's database and covers. Keeping them separate means attaching a
+        block-storage volume later is just mounting it at this path: no config
+        change, no re-scan.
+      '';
+    };
+
+    libraryGroup = lib.mkOption {
+      type = lib.types.str;
+      default = "kavita";
+      description = "Group with write access to libraryDir, for whoever uploads books.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -57,5 +74,12 @@ in
 
     # Second layer behind the bind address: reachable only over the tunnel.
     networking.firewall.interfaces.${cfg.interface}.allowedTCPPorts = [ cfg.port ];
+
+    # 2775: setgid, so anything uploaded inherits libraryGroup rather than the
+    # uploader's primary group — otherwise Kavita silently can't read new files.
+    # Group-writable so a human can rsync into it without becoming root.
+    systemd.tmpfiles.rules = [
+      "d ${cfg.libraryDir} 2775 ${config.services.kavita.user} ${cfg.libraryGroup} - -"
+    ];
   };
 }
