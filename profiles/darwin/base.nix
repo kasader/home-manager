@@ -5,7 +5,6 @@
   # home-manager; this file owns only what must live at the macOS system level.
   # Mirrors profiles/nixos/base.nix. Per-host bits (hostPlatform, stateVersion,
   # the Homebrew cask/tap lists) live in hosts/<name>/configuration.nix.
-  imports = [ ../../modules/darwin ];
 
   # Flakes + modern nix CLI.
   nix.settings.experimental-features = [
