@@ -6,9 +6,13 @@
   #
   # Anything already provided by profiles/nixos/base.nix (fish login shell, the
   # kasada account, locale/timezone, flakes) is deliberately not restated here.
+  # The services list doubles as the index of what this box actually runs; the
+  # tunnel facts they share live in ./tunnel.nix.
   imports = [
     ./hardware-configuration.nix
-    ./services.nix
+    ./services/wireguard.nix
+    ./services/dnsmasq.nix
+    ./services/kavita.nix
     ../../profiles/nixos/base.nix
   ];
 
