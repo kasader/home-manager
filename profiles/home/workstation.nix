@@ -11,7 +11,6 @@
     security.enable = true;
     services.syncthing.enable = true;
     terminal.ghostty.enable = true;
-    vcs.ghq.enable = true;
     cloud = {
       aws.enable = true;
       gcp.enable = true;

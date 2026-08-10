@@ -14,7 +14,10 @@
       fzf.enable = true;
     };
     terminal.tmux.enable = true;
-    vcs.git.enable = true;
+    vcs = {
+      git.enable = true;
+      ghq.enable = true;
+    };
   };
 
   home = {
