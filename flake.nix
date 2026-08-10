@@ -4,13 +4,6 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-26.05";
 
-    # https://github.com/NotAShelf/nvf
-    # Neovim configuration framework for Nix
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs"; # Stating *.follows = 'nixpkgs'; indicates that
@@ -54,7 +47,6 @@
       nixpkgs,
       home-manager,
       nix-darwin,
-      nvf,
       nur,
       agenix,
       git-hooks,
@@ -122,7 +114,6 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = { inherit isDarwin; };
-                sharedModules = [ nvf.homeManagerModules.default ];
                 users.kasada.imports = [ (hostDir + "/home.nix") ];
               };
             }
