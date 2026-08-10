@@ -1,11 +1,10 @@
 { ... }:
 {
-  # NixOS system entry for ramiel. Composes the system profiles; the home side is
-  # wired in flake.nix via integrated home-manager (which imports ./home.nix).
+  # NixOS system entry for ramiel.
   imports = [
     ./hardware-configuration.nix
+    ./desktop.nix
     ../../profiles/nixos/base.nix
-    ../../profiles/nixos/desktop.nix
   ];
 
   # Network configuration.

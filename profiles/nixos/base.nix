@@ -6,7 +6,6 @@
   #
   # Values below are confirmed against ramiel's installed configuration; the one
   # remaining TODO(ramiel) is declarative password management (see below).
-  imports = [ ../../modules/nixos ];
 
   # Flakes + modern nix CLI.
   nix.settings.experimental-features = [
