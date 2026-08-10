@@ -8,9 +8,14 @@
 # Host keys come from `ssh-keyscan <host>` (or /etc/ssh/ssh_host_ed25519_key.pub
 # on the machine). These are public keys; committing them is expected.
 #
+# The ciphertext lives with the host that decrypts it (hosts/<host>/secrets/);
+# this map stays at the root because it is the one cross-cutting piece — my key
+# recurs in every entry, and `-r` rekeys the whole repo in one pass. Run both
+# commands from the repo root, where the agenix CLI looks for this file.
+#
 # Usage:
-#   nix run github:ryantm/agenix -- -e secrets/<name>.age    # create / edit
-#   nix run github:ryantm/agenix -- -r                       # rekey after adding a host
+#   nix run github:ryantm/agenix -- -e hosts/<host>/secrets/<name>.age  # create / edit
+#   nix run github:ryantm/agenix -- -r                                  # rekey after adding a host
 let
   # Users
   kasada = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGTzdbcvGlOFncCHcBN91i/JvY1X9YBmj1ZNhbElfv+e sasha@diarkis.io";
@@ -19,12 +24,12 @@ let
   nixbox = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBjdRZjNrHS7+RHKNR24Nl6KIqXBcTBXxHzgyb9l7khA";
 in
 {
-  "secrets/wireguard-nixbox-private.age".publicKeys = [
+  "hosts/nixbox/secrets/wireguard-nixbox-private.age".publicKeys = [
     kasada
     nixbox
   ];
 
-  "secrets/kavita-token.age".publicKeys = [
+  "hosts/nixbox/secrets/kavita-token.age".publicKeys = [
     kasada
     nixbox
   ];

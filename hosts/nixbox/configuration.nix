@@ -48,9 +48,9 @@
   # Decrypted at activation into /run/agenix using this host's
   # /etc/ssh/ssh_host_ed25519_key. Never enters the Nix store.
   age.secrets = {
-    wireguard-nixbox-private.file = ../../secrets/wireguard-nixbox-private.age;
+    wireguard-nixbox-private.file = ./secrets/wireguard-nixbox-private.age;
     kavita-token = {
-      file = ../../secrets/kavita-token.age;
+      file = ./secrets/kavita-token.age;
       # systemd reads this via LoadCredential as root before dropping to the
       # kavita user, so it does not need to be owned by that user.
       mode = "0400";
