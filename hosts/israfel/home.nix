@@ -1,6 +1,7 @@
 { ... }: {
   imports = [
     ../../profiles/home/base.nix
+    ../../profiles/home/workstation.nix
     ../../profiles/home/darwin.nix
   ];
 

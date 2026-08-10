@@ -24,5 +24,12 @@ in
       kube-linter
       conftest
     ];
+
+    # Fish abbrvs.
+    programs.fish.shellAbbrs = {
+      k = "kubectl";
+      kctx = "kubectx";
+      kns = "kubens";
+    };
   };
 }

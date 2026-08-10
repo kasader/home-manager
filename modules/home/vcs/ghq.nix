@@ -33,6 +33,10 @@ in
     programs.fish.shellAbbrs = {
       gq = "ghq get -p"; # clone (over ssh, via git insteadOf) into the tree
       gql = "ghq list";
+      ghc = "ghq clone";
+      ghl = "ghq list";
+      ghrm = "ghq rm";
+      ghcr = "ghq create";
     };
   };
 }

@@ -34,6 +34,11 @@ in
           pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin
         ])
       ];
+
+      programs.fish.shellAbbrs = {
+        gclist = "gcloud config configurations list";
+        gcact = "gcloud config configuration activate";
+      };
     })
 
     (lib.mkIf cfg.aws.enable {

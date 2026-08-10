@@ -1,98 +1,49 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  # The base profile: everything that belongs on *every* machine. It pulls in the
-  # full module registry (so all `custom.*` options exist) and switches on the
-  # universal set. Per-host extras are enabled in the host files instead.
+  # Core home profile: interactive environment for any machine I use including
+  # any sort of headless env.
   imports = [ ../../modules/home ];
 
   programs.home-manager.enable = true;
 
   custom = {
-    cloud = {
-      aws.enable = true;
-      gcp.enable = true;
-      oci.enable = true;
-    };
-    fonts.enable = true;
-    security.enable = true;
-    media.enable = true;
-    fun.enable = true;
     editors.nvim.enable = true;
+    files.yazi.enable = true;
     shell = {
       enable = true;
       fzf.enable = true;
     };
-    terminal = {
-      ghostty.enable = true;
-      tmux.enable = true;
-    };
-    vcs = {
-      git.enable = true;
-      ghq.enable = true;
-    };
-    files.yazi.enable = true;
-    services.syncthing.enable = true;
-    languages = {
-      go.enable = true;
-      rust.enable = true;
-      python3.enable = true;
-    };
+    terminal.tmux.enable = true;
+    vcs.git.enable = true;
   };
 
   home = {
-    # Universal misc CLI tools that don't warrant a topical module. Themed sets
-    # live in their own modules instead: security, media, fun (toys/typing), vcs,
-    # languages, etc. — see the custom.* toggles above. delta and direnv are NOT
-    # listed here: they ship via programs.delta (vcs/git) and programs.direnv.
+    # Core toolbelt
     packages = with pkgs; [
-      hugo
+      bashInteractive
+      bat
+      coreutils
+      curl
+      fastfetch
       gnugrep
       gnumake
-      nix-search-cli # `nix-search`; backs pay-respects' package suggestions
-      ripgrep
-      fastfetch # TODO: Add an alias for neofetch (as it is now deprecated)
-      bat
-      pay-respects
-      lazygit
       htop
-      jq
-      nixfmt
-      tree
-      wget
-      tldr
-      curl
-      colordiff
-      icdiff
-
-      # Migrated off Homebrew (`brew leaves`). Stable, cross-platform CLI tools
-      # that nix packages cleanly. Build toolchains (cmake/meson/llvm/golangci-lint
-      # /mage/doxygen) deliberately stay out of the global env and belong in each
-      # project's dev-shell instead.
-      gh
-      coreutils
-      ncdu
-      nmap
-      socat
       inetutils # provides telnet
-      aria2
-      shfmt
-      stylua
-      universal-ctags
-      graphviz
-      bashInteractive
+      jq
+      lazygit
+      ncdu
+      nix-search-cli # `nix-search`; backs pay-respects' package suggestions
+      pay-respects # the fish module sources this unconditionally
+      ripgrep
+      tldr
+      tree
       watch
-
-      # TODO: Add Soulseek server-client (at some point...)
-      # https://github.com/slskd/slskd/
-
-      # TODO: Good OCR for when you need to do JPNs something?
-      # tesseract
+      wget
     ];
 
     sessionVariables = {
       EDITOR = "nvim";
       MANWIDTH = "100";
-      DIARKIS_PATH = "${config.home.homeDirectory}/diarkis";
     };
 
     # Per-language install dirs (Go GOBIN, cargo CARGO_INSTALL_ROOT) target
