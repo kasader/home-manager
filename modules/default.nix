@@ -11,11 +11,16 @@
     description = "Live checkout location of this flake, for out-of-store symlinks.";
   };
 
-  # Module registry. Importing a module here only *declares* its
-  # `custom.<name>.enable` option — everything defaults to off. Deciding what to
-  # turn on is a separate concern owned by profiles and hosts:
-  #   - profiles/base.nix  enables the universal set (every machine)
-  #   - hosts/<name>       enable per-host extras (k8s, containers, browsers, …)
+  # Module registry. Everything here is a home-manager module; there is no
+  # system-level counterpart, because nothing has needed to be shared between
+  # hosts at that level — profiles/nixos, profiles/darwin and the host files own
+  # the system side directly.
+  #
+  # Importing a module here only *declares* its `custom.<name>.enable` option;
+  # everything defaults to off. What to turn on is a separate concern:
+  #   - profiles/home/base.nix        the interactive core, every machine
+  #   - profiles/home/workstation.nix graphical / dev-toolchain hosts
+  #   - hosts/<name>/home.nix         per-host extras (k8s, containers, browsers)
   #
   # So "is this module available?" and "is this module on?" are answered in
   # different places — nothing is active merely by being imported.

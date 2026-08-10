@@ -2,7 +2,7 @@
 {
   # Everything that presumes a personal workstation: a graphical session, dev
   # toolchains, cloud accounts, media, toys.
-  imports = [ ../../modules/home ];
+  imports = [ ../../modules ];
 
   custom = {
     fonts.enable = true;

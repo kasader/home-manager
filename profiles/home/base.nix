@@ -2,7 +2,7 @@
 {
   # Core home profile: interactive environment for any machine I use including
   # any sort of headless env.
-  imports = [ ../../modules/home ];
+  imports = [ ../../modules ];
 
   programs.home-manager.enable = true;
 

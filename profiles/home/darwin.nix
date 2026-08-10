@@ -10,7 +10,7 @@
   # keeps Darwin-only packages like `mkalias` off Linux).
   #
   # This is platform *glue*, not a toggleable capability, which is why it lives in
-  # the profile rather than as a category module under modules/home.
+  # the profile rather than as a category module under modules/.
 
   # Spotlight/Launchpad won't index symlinks into /nix/store, so the apps Home
   # Manager links under "Home Manager Apps" never show up in the launcher.

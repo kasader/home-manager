@@ -82,7 +82,7 @@ in
     # Live-editable config: symlink the repo's nvim config dir into ~/.config/nvim
     # rather than copying it to the read-only Nix store. lazy.nvim can then write
     # its lazy-lock.json back into the repo. Repo location is the single source of
-    # truth custom.flakeDir (see modules/home/default.nix).
-    xdg.configFile.nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.custom.flakeDir}/modules/home/editors/nvim/config";
+    # truth custom.flakeDir (see modules/default.nix).
+    xdg.configFile.nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.custom.flakeDir}/modules/editors/nvim/config";
   };
 }
