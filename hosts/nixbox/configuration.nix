@@ -12,7 +12,6 @@
     ./hardware-configuration.nix
     ./services/wireguard.nix
     ./services/dnsmasq.nix
-    ./services/kavita.nix
     ../../profiles/nixos/base.nix
   ];
 
@@ -53,12 +52,6 @@
   # /etc/ssh/ssh_host_ed25519_key. Never enters the Nix store.
   age.secrets = {
     wireguard-nixbox-private.file = ./secrets/wireguard-nixbox-private.age;
-    kavita-token = {
-      file = ./secrets/kavita-token.age;
-      # systemd reads this via LoadCredential as root before dropping to the
-      # kavita user, so it does not need to be owned by that user.
-      mode = "0400";
-    };
   };
 
   # Server-side diagnostics, on top of base.nix's git/vim. enableAllTerminfo so

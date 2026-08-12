@@ -2,10 +2,11 @@
 # module — the files under ./services read it with `import`, so it must never
 # appear in an `imports` list.
 #
-# It exists because these facts are shared: dnsmasq and kavita both bind addr and
-# open ports on iface, and kavita orders itself after unit. Defaulting them per
-# service is how you end up renaming the interface in two places out of three and
-# leaving a unit ordered after a wireguard unit that no longer exists.
+# It exists because these facts are shared: wireguard defines the interface,
+# dnsmasq binds addr and opens ports on iface, and a tunnel-only service orders
+# itself after unit. Defaulting them per service is how you end up renaming the
+# interface in two places out of three and leaving a unit ordered after a
+# wireguard unit that no longer exists.
 {
   iface = "wg0";
   addr = "10.100.0.1";
