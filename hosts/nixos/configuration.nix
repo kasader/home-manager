@@ -2,20 +2,26 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../profiles/nixos/base.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "nixos"
+    hostName = "nixos";
     networkmanager.enable = true;
   };
 
@@ -36,7 +42,10 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kasada = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
       vim
@@ -51,8 +60,12 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    vim 
+    vim
   ];
+
+  # Sandy Bridge is old enough that the shipped CPU microcode has known errata
+  # fixed only by a runtime update.
+  hardware.cpu.intel.updateMicrocode = true;
 
   # List services that you want to enable:
 
@@ -82,4 +95,3 @@
   system.stateVersion = "26.05"; # Did you read the comment?
 
 }
-

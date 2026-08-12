@@ -131,6 +131,11 @@
         hostDir = ./hosts/nixbox;
       };
 
+      nixosConfigurations.nixos = mkHost {
+        isDarwin = false;
+        hostDir = ./hosts/nixos;
+      };
+
       darwinConfigurations.israfel = mkHost {
         isDarwin = true;
         hostDir = ./hosts/israfel;
@@ -148,6 +153,7 @@
           skipRegexes = [
             "^hosts/ramiel/hardware-configuration\\.nix$"
             "^hosts/nixbox/hardware-configuration\\.nix$"
+            "^hosts/nixos/hardware-configuration\\.nix$"
           ];
           skipGlobs = [ "**/hardware-configuration.nix" ];
         in
