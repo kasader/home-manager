@@ -21,6 +21,11 @@ in
         publicKey = "89TrHTF5djXDYjgRI3zKfmRRXIkyM2EzGJkKj+JsVn0=";
         allowedIPs = [ "10.100.0.2/32" ];
       }
+      {
+        # google pixel
+        publicKey = "20QAmlaBQ7MCE2RFjyKwZYy9mU4rsfOIAfRLt906KhE=";
+        allowedIPs = [ "10.100.0.3/32" ];
+      }
     ];
   };
 
