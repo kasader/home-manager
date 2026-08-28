@@ -1,5 +1,8 @@
-{ lib, pkgs, ... }:
 {
+  lib,
+  pkgs,
+  ...
+}: {
   # Baseline system config every NixOS host gets. The *home* side (shell, git,
   # editors, …) is provided by profiles/home/base.nix via integrated home-manager;
   # this file owns only what must live at the system level.
@@ -31,10 +34,12 @@
   # NixOS owns the *account*; home-manager owns the account's *home*. Fish is the
   # login shell everywhere, so it must be enabled at the system level to be valid.
   programs.fish.enable = true;
+  programs.nix-ld.enable = true;
+
   users.users.kasada = {
     isNormalUser = true;
     description = "kasada";
-    extraGroups = [ "wheel" ];
+    extraGroups = ["wheel"];
     shell = pkgs.fish;
     # TODO(ramiel): set an initial password with `passwd` after first boot, or
     # manage it declaratively (hashedPasswordFile) once secrets are wired up.
